@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About MetaGuard</title>
+  <link rel="stylesheet" href="styles.css?v=5">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon"><img src="logo.svg" alt="MetaGuard logo" class="logo"></div>
+        <div>
+          <p class="brand-name">MetaGuard</p>
+          <p class="brand-sub">Privacy Matters</p>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Dashboard</a>
+        <a href="privacy.html" target="_blank" rel="noopener noreferrer">Privacy</a>
+        <a href="history.html" target="_blank" rel="noopener noreferrer">History</a>
+        <a href="about.html" class="active">About</a>
+      </nav>
+      <div class="sidebar-footer">
+        <p>Learn more about MetaGuard on this page.</p>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <section class="card">
+        <div class="section-header">
+          <h3>About MetaGuard</h3>
+        </div>
+        <img src="assets/lock_camera.svg" alt="Device privacy illustration" style="width:100%; max-width:380px; border-radius:20px; margin-bottom:18px; background:rgba(255,255,255,0.08);">
+        <p>MetaGuard is a privacy-first metadata scanner that helps protect your images, videos, and documents.</p>
+        <p>Hidden metadata can reveal location, device details, and timestamps. MetaGuard helps you inspect and remove that data before sharing.</p>
+        <ul>
+          <li>Local-first scanning</li>
+          <li>Easy file cleanup</li>
+          <li>Privacy guidance and reporting</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+  <script>
+    (function() {
+      const applyTheme = (theme) => {
+        const isLight = theme === 'light';
+        document.body.classList.toggle('light-theme', isLight);
+        document.documentElement.classList.toggle('light-theme', isLight);
+      };
+
+      try {
+        applyTheme(localStorage.getItem('meta_theme') || 'dark');
+      } catch (e) {}
+
+      window.addEventListener('storage', (event) => {
+        if (event.key === 'meta_theme') {
+          applyTheme(event.newValue || 'dark');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

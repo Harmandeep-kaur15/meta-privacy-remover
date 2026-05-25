@@ -1,0 +1,14 @@
+node_modules/
+.env
+.DS_Store
+.vscode/
+dist/
+coverage/
+*.log
+history.json
+client_secrets.json
+npm-debug.log*
+.idea/
+
+# OS files
+Thumbs.db

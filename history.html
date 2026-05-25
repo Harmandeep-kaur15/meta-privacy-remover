@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MetaGuard History</title>
+  <link rel="stylesheet" href="styles.css?v=5">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon"><img src="logo.svg" alt="MetaGuard logo" class="logo"></div>
+        <div>
+          <p class="brand-name">MetaGuard</p>
+          <p class="brand-sub">Privacy Matters</p>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Dashboard</a>
+        <a href="privacy.html" target="_blank" rel="noopener noreferrer">Privacy</a>
+        <a href="history.html" class="active">History</a>
+        <a href="about.html" target="_blank" rel="noopener noreferrer">About</a>
+      </nav>
+      <div class="sidebar-footer">
+        <p>History opens on a separate page so the dashboard stays focused.</p>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <section class="card">
+        <div class="section-header">
+          <h3>Scan History</h3>
+        </div>
+        <p>Review your past files and metadata scans, including image and document awareness insights.</p>
+        <div class="history-card">
+          <img src="assets/security_shield.svg" alt="Privacy shield" style="width:100%; max-width:380px; border-radius:20px; margin-bottom:18px; background:rgba(255,255,255,0.08);">
+          <p class="muted">History data is stored in the main dashboard. Use the dashboard to scan files, then revisit this page for a summary.</p>
+          <ul>
+            <li>Scan results</li>
+            <li>High risk files</li>
+            <li>Cleaned file actions</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <h3>Data exposure awareness</h3>
+        </div>
+        <div class="history-grid">
+          <div class="history-metric">
+            <h4>Images scanned</h4>
+            <p>Track how many photos were inspected for hidden GPS and camera metadata.</p>
+          </div>
+          <div class="history-metric">
+            <h4>Files cleaned</h4>
+            <p>See how many files were stripped of author tags, timestamps, and identifiers.</p>
+          </div>
+          <div class="history-metric">
+            <h4>High-risk findings</h4>
+            <p>Monitor files flagged for sensitive location or device data that should not be shared.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <h3>Picture and data awareness</h3>
+        </div>
+        <div class="history-awareness">
+          <div class="card">
+            <h4>Photo metadata examples</h4>
+            <p>Camera serial numbers, GPS coordinates and embedded thumbnails can all be removed before sharing.</p>
+          </div>
+          <div class="card">
+            <h4>Document privacy examples</h4>
+            <p>Office files may include hidden comments, author fields, and previous edits that reveal more than intended.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script>
+    (function() {
+      const applyTheme = (theme) => {
+        const isLight = theme === 'light';
+        document.body.classList.toggle('light-theme', isLight);
+        document.documentElement.classList.toggle('light-theme', isLight);
+      };
+
+      try {
+        applyTheme(localStorage.getItem('meta_theme') || 'dark');
+      } catch (e) {}
+
+      window.addEventListener('storage', (event) => {
+        if (event.key === 'meta_theme') {
+          applyTheme(event.newValue || 'dark');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

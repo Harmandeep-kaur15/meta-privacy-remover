@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>MetaGuard Privacy Matters</title>
+  <link rel="stylesheet" href="styles.css?v=5">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon"><img src="logo.svg" alt="MetaGuard logo" class="logo"></div>
+        <div>
+          <p class="brand-name">MetaGuard</p>
+          <p class="brand-sub">Privacy Matters</p>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html" class="active">Dashboard</a>
+        <a href="privacy.html" target="_blank" rel="noopener noreferrer">Privacy</a>
+        <a href="history.html" target="_blank" rel="noopener noreferrer">History</a>
+        <a href="about.html" target="_blank" rel="noopener noreferrer">About</a>
+      </nav>
+      <div class="sidebar-footer">
+        <p>Your Privacy is Important</p>
+        <p>Check metadata before sharing your photos online.</p>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div class="top-status-bar">
+        <div style="margin-left:auto; display:flex; gap:12px; align-items:center;">
+          <button id="themeToggle" class="status-chip" aria-pressed="false" title="Toggle dark / light theme">🌙 Dark</button>
+          <div id="serverStatusBadge" class="status-chip server-status-chip offline" title="Server status">Server: Offline</div>
+          <div class="user-chip">User</div>
+        </div>
+        <div id="serverNotice" class="server-notice" style="display:none;">
+          <div class="server-notice-text"><strong id="serverNoticeText">Local server unavailable</strong><span id="serverNoticeSub" class="muted">Some features require the local server to be running.</span></div>
+          <div class="server-notice-actions">
+            <button id="startServerBtn" class="local-server-button" type="button">Open Server</button>
+            <button id="dismissServerNotice" class="ghost-btn" type="button">Dismiss</button>
+          </div>
+        </div>
+      </div>
+      <section class="hero-banner card">
+        <div class="hero-copy">
+          <p class="small-label">Image Metadata</p>
+          <h1>Image Metadata Privacy Checker</h1>
+          <p>Upload an image and check hidden metadata that can expose your personal information.</p>
+          <div class="hero-pill-group">
+            <span class="hero-pill">100% Secure</span>
+            <span class="hero-pill">Local processing</span>
+            <span class="hero-pill">Your files never leave your device</span>
+          </div>
+          <button class="primary-btn" id="openImageBtn" type="button">Scan Image</button>
+        </div>
+        <div class="hero-card">
+          <div class="hero-preview">
+            <img src="nature_sample.svg" alt="Nature trip preview" />
+          </div>
+          <div class="hero-copy-sm">
+            <div>
+              <strong>nature_trip.jpg</strong>
+              <p>1.24 MB • 4032 × 3024</p>
+            </div>
+            <span>High Risk • Metadata found</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="privacy" class="page-section">
+        <section class="card upload-card">
+          <div class="upload-intro">
+            <h2>Upload file for metadata inspection</h2>
+            <p>Drag & drop any supported file here, then scan and remove hidden metadata.</p>
+          </div>
+          <div class="drop-zone" id="dropZone" role="button" tabindex="0" aria-label="Upload file for metadata inspection">
+            <div class="drop-icon">☁</div>
+            <p>Drag & drop your image, video, PDF, or Office file here</p>
+            <p class="hint">Supports JPG, PNG, MP4, PDF, DOCX, PPTX, XLSX up to 150MB</p>
+            <p class="hint file-type-hint" id="fileTypeHint">Supported file types include images, videos, PDFs, and Office documents.</p>
+            <p class="hint">💡 Pro tip: Drop a folder to batch-process multiple files!</p>
+            <input type="file" id="fileInput" accept="image/*,video/*,application/pdf,.docx,.pptx,.xlsx">
+            <input type="file" id="folderInput" webkitdirectory directory multiple style="display:none">
+            <div class="upload-controls">
+              <div class="progress" aria-hidden="true">
+                <div class="progress-bar" id="uploadProgress" style="width:0%">0%</div>
+              </div>
+              <button id="cancelUpload" class="secondary-btn" type="button" style="display:none">Cancel Upload</button>
+              <div id="uploadStatus" class="hint" aria-live="polite"></div>
+              <div id="batchQueue" style="display:none; margin-top:12px;">
+                <p style="font-size:0.9rem; color:var(--muted);">📦 Batch Queue: <strong id="queueCount">0</strong> files</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="grid-section">
+          <article class="card metadata-card">
+            <div class="section-header">
+              <h3>Metadata Scan Results</h3>
+              <button class="secondary-btn" id="rescanButton" type="button">Rescan</button>
+            </div>
+            <div class="metadata-body">
+              <div class="metadata-preview">
+                <div class="preview-image" id="previewImage"></div>
+                <div class="image-caption" id="imageCaption">Select a file to begin</div>
+              </div>
+              <div class="metadata-list">
+                <div class="metadata-row"><span>Camera Model</span><strong id="cameraModelValue">Unknown</strong></div>
+                <div class="metadata-row"><span>Date & Time</span><strong id="dateTimeValue">Unknown</strong></div>
+                <div class="metadata-row"><span>GPS Location</span><strong id="gpsValue">Unknown</strong></div>
+                <div class="metadata-row"><span>Device</span><strong id="deviceValue">Unknown</strong></div>
+                <div class="metadata-row"><span>Aperture</span><strong id="apertureValue">Unknown</strong></div>
+                <div class="metadata-row"><span>Focal Length</span><strong id="focalLengthValue">Unknown</strong></div>
+                <div class="metadata-row"><span>ISO</span><strong id="isoValue">Unknown</strong></div>
+                <div class="metadata-row"><span>Dimensions</span><strong id="dimensionsValue">Unknown</strong></div>
+                <div class="metadata-row"><span>File Size</span><strong id="fileSizeValue">Unknown</strong></div>
+                <div class="metadata-row"><span>File Type</span><strong id="fileTypeValue">Unknown</strong></div>
+                <div class="metadata-row"><span>Annotations</span><strong id="annotationsValue">Unknown</strong></div>
+                <div class="metadata-row"><span>Form Fields</span><strong id="formFieldsValue">Unknown</strong></div>
+                <div class="metadata-row"><span>Hidden Layers</span><strong id="hiddenLayersValue">Unknown</strong></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card risk-card">
+            <div class="section-header">
+              <h3>Privacy Risk Summary</h3>
+            </div>
+            <div class="risk-body">
+              <div class="risk-gauge">
+                <div class="gauge-ring">
+                  <span id="riskScore">--</span>
+                </div>
+                <p id="riskLabel">Awaiting upload</p>
+                <div style="margin-top:8px; display:flex; gap:8px; align-items:center;">
+                  <span id="scanSourceBadge" class="muted">Source: —</span>
+                  <button id="retryServerBtn" class="ghost-btn" type="button" style="display:none;">Retry Server</button>
+                </div>
+              </div>
+              <div class="risk-info">
+                <p id="riskSummaryText">Upload a file to inspect hidden metadata and risk factors.</p>
+                <ul>
+                  <li><span>Location Data</span><strong id="locationDataStatus">Unknown</strong></li>
+                  <li><span>Device Info</span><strong id="deviceInfoStatus">Unknown</strong></li>
+                  <li><span>Date & Time</span><strong id="dateTimeStatus">Unknown</strong></li>
+                  <li><span>Other Metadata</span><strong id="otherMetadataStatus">Unknown</strong></li>
+                </ul>
+              </div>
+            </div>
+            <button class="primary-btn">View Risk Details</button>
+          </article>
+        </section>
+
+        <section class="card">
+          <div class="section-header">
+            <h3>⚙️ Advanced Options</h3>
+          </div>
+          <div class="metadata-controls">
+            <p style="color: var(--muted); margin-bottom: 12px;">Choose which metadata to remove. Advanced offline scanning can detect JPEG GPS and camera metadata directly in your browser when running from file://.</p>
+            <div class="checkbox-group">
+              <label class="checkbox-item">
+                <input type="checkbox" id="remove-gps" checked> GPS & Location Data
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" id="remove-device" checked> Device & Camera Info
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" id="remove-datetime" checked> Timestamps & Dates
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" id="remove-author" checked> Author & Creator
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" id="remove-annotations" checked> Annotations & Comments
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" id="enable-blur"> 🤖 Auto-Blur Faces (AI)
+                <span class="muted" style="margin-left:8px; font-size:0.9rem;">(offline AI blur not yet implemented)</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <section class="card bottom-card">
+          <div class="bottom-grid">
+            <div class="bottom-panel">
+              <h3>Remove Metadata & Protect Privacy</h3>
+              <p>Metadata can contain hidden information about your image. Clean it before sharing online.</p>
+              <ul>
+                <li>Remove GPS location</li>
+                <li>Remove device & camera info</li>
+                <li>Remove all hidden metadata</li>
+              </ul>
+              <button class="primary-btn" id="cleanButton" type="button">Clean File Now</button>
+            </div>
+            <div class="preview-panel">
+              <div class="preview-card">
+                <div class="preview-image small" id="previewClean"></div>
+                <div>
+                  <p>Cleaned File Preview</p>
+                  <button class="ghost-btn" id="downloadCleanButton" type="button">Download Clean File</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section id="video" class="card page-section">
+        <div class="section-header">
+          <h3>Media & Document Support</h3>
+        </div>
+        <div class="media-support">
+          <p>Clean hidden metadata from more than images. This tool now also scans and strips metadata from videos, PDFs, and Office documents.</p>
+          <ul>
+            <li>Video metadata removal: strip GPS, tags, and source data from video files.</li>
+            <li>PDF metadata cleaning: rewrite PDFs to remove author, title, and hidden properties.</li>
+            <li>Office document privacy: clean DOCX, PPTX, and XLSX metadata by removing document property files.</li>
+            <li>One upload flow: use the same uploader and clean action for all supported file types.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="about" class="card page-section">
+        <div class="section-header">
+          <h3>About MetaGuard</h3>
+        </div>
+        <p><strong>MetaGuard helps protect your privacy by removing hidden metadata from your files.</strong></p>
+        <p>Every photo, video, and document you create contains hidden information that can reveal where you took a photo, what device you used, and when. This information can be misused for tracking or identity theft.</p>
+        <p><strong>Why MetaGuard?</strong> Metadata removal is critical for journalists, activists, remote workers, and everyday users who share files online. We make privacy protection simple and accessible to everyone.</p>
+        <ul>
+          <li>✓ Removes GPS location data from photos</li>
+          <li>✓ Strips device and camera information</li>
+          <li>✓ Cleans timestamps and creation dates</li>
+          <li>✓ Processes videos, PDFs, and Office documents</li>
+          <li>✓ All processing happens on your device—files never leave</li>
+          <li>✓ Free and privacy-first</li>
+        </ul>
+        <p><strong>Real-world use cases:</strong></p>
+        <ul>
+          <li>Social media: Remove metadata before uploading to Instagram, Twitter, or TikTok</li>
+          <li>Professional: Protect client documents and confidential communications</li>
+          <li>Safety: Help activists and journalists protect their location</li>
+          <li>General privacy: Maintain control over your digital footprint</li>
+        </ul>
+        <div class="about-images">
+          <h4>Privacy & Security</h4>
+          <p>Visual references about metadata risks and privacy best practices.</p>
+          <div class="about-images-grid">
+            <img src="assets/security_shield.svg" alt="Security shield illustration">
+            <img src="assets/lock_camera.svg" alt="Camera lock illustration">
+            <img src="logo.svg" alt="App logo">
+            <img src="nature_sample.svg" alt="Sample image preview">
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="script.js?v=4"></script>
+</body>
+</html>

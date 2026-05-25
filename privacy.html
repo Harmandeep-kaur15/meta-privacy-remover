@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MetaGuard Privacy</title>
+  <link rel="stylesheet" href="styles.css?v=5">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon"><img src="logo.svg" alt="MetaGuard logo" class="logo"></div>
+        <div>
+          <p class="brand-name">MetaGuard</p>
+          <p class="brand-sub">Privacy Matters</p>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Dashboard</a>
+        <a href="privacy.html" class="active">Privacy</a>
+        <a href="history.html" target="_blank" rel="noopener noreferrer">History</a>
+        <a href="about.html" target="_blank" rel="noopener noreferrer">About</a>
+      </nav>
+      <div class="sidebar-footer">
+        <p>Privacy resources live on a separate page.</p>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <section class="card">
+        <div class="section-header">
+          <h3>Privacy Guide</h3>
+        </div>
+        <p>MetaGuard helps you understand privacy risks and keep your files safe.</p>
+        <div class="privacy-grid">
+          <div class="card">
+            <h4>Remove Location Data</h4>
+            <p>Hidden GPS coordinates can reveal where photos were taken. Always clean location metadata before sharing.</p>
+          </div>
+          <div class="card">
+            <h4>Strip Device Info</h4>
+            <p>Camera make, model, and device identifiers are often stored in files. Remove them to preserve anonymity.</p>
+          </div>
+          <div class="card">
+            <h4>Clear Timestamps</h4>
+            <p>Creation and edit dates can expose your schedule. Remove or reset timestamps before you publish files.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <h3>Awareness through images and file data</h3>
+        </div>
+        <div class="data-awareness">
+          <div class="data-card">
+            <img src="assets/lock_camera.svg" alt="Camera metadata illustration" class="info-image">
+            <h4>Photos contain hidden history</h4>
+            <p>Images often include camera settings, GPS coordinates, device identifiers, and editing software details.</p>
+          </div>
+          <div class="data-card">
+            <img src="assets/security_shield.svg" alt="Document privacy illustration" class="info-image">
+            <h4>Documents leak author metadata</h4>
+            <p>Office files can preserve author names, revision comments, and hidden notes that reveal personal or business details.</p>
+          </div>
+          <div class="data-card">
+            <img src="assets/nature_sample.svg" alt="Sample scan illustration" class="info-image">
+            <h4>Videos and archives hide tags</h4>
+            <p>Video and multimedia files may carry encoded tags, timestamps, and GPS markers that are easy to miss.</p>
+          </div>
+        </div>
+        <div class="awareness-list">
+          <h4>Stay aware by checking for:</h4>
+          <ul>
+            <li>GPS coordinates embedded in photo files</li>
+            <li>Device and camera model metadata</li>
+            <li>Hidden author names and revision history</li>
+            <li>File creation and modification timestamps</li>
+            <li>Embedded thumbnails or hidden image layers</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <h3>How to protect your data</h3>
+        </div>
+        <ul class="privacy-tips-list">
+          <li>Scan every file before sharing to identify hidden metadata.</li>
+          <li>Use MetaGuard's clean tools to remove metadata from images, documents and videos.</li>
+          <li>Review privacy settings on apps before uploading files.</li>
+          <li>Keep original files private and only share cleaned copies.</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+  <script>
+    (function() {
+      const applyTheme = (theme) => {
+        const isLight = theme === 'light';
+        document.body.classList.toggle('light-theme', isLight);
+        document.documentElement.classList.toggle('light-theme', isLight);
+      };
+
+      try {
+        applyTheme(localStorage.getItem('meta_theme') || 'dark');
+      } catch (e) {}
+
+      window.addEventListener('storage', (event) => {
+        if (event.key === 'meta_theme') {
+          applyTheme(event.newValue || 'dark');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
